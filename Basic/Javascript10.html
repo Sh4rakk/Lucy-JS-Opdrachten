@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/Stylesheet10.css">
+    <title>Document</title>
+</head>
+<body>
+
+<b>Output</b> <br><br>
+
+<div id="output">
+    -
+</div><br>
+
+<form id="inputForm">
+<table>
+    <tr>
+        <td>Voornaam:</td>
+        <td><input type="text" id="vnaam" placeholder="voornaam"></td>
+    </tr>
+    <tr>
+        <td>Achternaam:</td>
+        <td><input type="text" id="anaam" placeholder="achternaam"></td>
+    </tr>
+    <tr>
+        <td>Leeftijd:</td>
+        <td><input type="text" id="leeftijd" placeholder="leeftijd"></td>
+    </tr>
+    <tr>
+        <td>Over:</td>
+        <td><input size="2" type="text" id="jaar" placeholder="x"> jaar...</td>
+    </tr>
+</table><br>
+<input type="submit" value="Plaats tekst">
+</form>
+
+<script>
+    document.getElementById('inputForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const voornaam = document.getElementById('vnaam').value.trim();
+        const achternaam = document.getElementById('anaam').value.trim();
+        const leeftijd = parseInt(document.getElementById('leeftijd').value.trim()) || 0;
+        const jaren = parseInt(document.getElementById('jaar').value.trim()) || 0;
+
+        const totaal = leeftijd + jaren;
+
+        const outputDiv = document.getElementById('output');
+        if (voornaam && achternaam) {
+            outputDiv.textContent = `Hallo ik ben ${voornaam} ${achternaam}, over ${jaren} jaar ben je ${totaal} jaar oud.`;
+        } else {
+            outputDiv.textContent = '-';
+        }
+    });
+</script>
+
+</body>
+</html> 

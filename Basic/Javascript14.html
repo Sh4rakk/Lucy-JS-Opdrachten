@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Auto's en Prijzen</title>
+</head>
+<body>
+  <div id="carList"></div>
+  <div id="totalPrice"></div>
+  <br>
+  Auto: <input type="text" id="carInput"><br>
+  Prijs: <input type="number" id="priceInput"><br>
+  <button id="addButton">toevoegen</button>
+
+  <script>
+    var autos = ["Saab", "Volvo", "BMW"];
+    var prijzen = [17000, 22000, 21000];
+    console.log("Initial arrays:", autos, prijzen);
+
+    function render() {
+      console.log("Rendering list...");
+      var listHTML = "";
+      var total = 0;
+      for (var i = 0; i < autos.length; i++) {
+        listHTML += "<l>De " + autos[i] + " kost €" + prijzen[i] + "</l><br>";
+        total += prijzen[i];
+      }
+      document.getElementById("carList").innerHTML = listHTML;
+      document.getElementById("totalPrice").innerHTML = "De totaalprijs van de " + autos.length + " auto's is: €" + total;
+      console.log("List updated:", listHTML);
+      console.log("Total price:", total);
+    }
+
+    render();
+
+    document.getElementById("addButton").addEventListener("click", function() {
+      var carName = document.getElementById("carInput").value;
+      var price = document.getElementById("priceInput").value;
+      console.log("Button clicked - Car:", carName, "Price:", price);
+      if (carName !== "" && price !== "") {
+        autos.push(carName);
+        prijzen.push(Number(price));
+        console.log("New car added:", carName, "with price:", price);
+        render();
+      } else {
+        console.log("Input fields cannot be empty.");
+      }
+    });
+  </script>
+</body>
+</html>

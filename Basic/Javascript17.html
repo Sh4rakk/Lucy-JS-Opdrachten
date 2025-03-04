@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/Stylesheet17.css">
+    <title>Stopwatch</title>
+</head>
+<body>
+<div class="stopwatch">
+    <b>Stopwatch</b>
+    <div id="display">00:00:00</div>
+    <div class="buttons">
+        <button onclick="fstop()">Stop</button>
+        <button onclick="fstart()">Start</button>
+        <button onclick="freset()">Reset</button>
+    </div>
+
+    <script>
+        let sec = 0;
+        let min = 0;
+        let milsec = 0;
+        let mijnInterval = null;
+
+        function fstop() {
+            clearInterval(mijnInterval);
+            mijnInterval = null;
+        }
+
+        function fstart() {
+            if (mijnInterval === null) { 
+                mijnInterval = setInterval(secTeller, 10);
+            }
+        }
+
+        function freset() {
+            fstop(); 
+            milsec = 0;
+            sec = 0;
+            min = 0;
+            updateDisplay();
+        }
+
+        function secTeller() {
+            milsec++;
+            if (milsec === 100) {
+                sec++;
+                milsec = 0;
+            }
+            if (sec === 60) {
+                min++;
+                sec = 0;
+            }
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            const formattedMin = String(min).padStart(2, '0');
+            const formattedSec = String(sec).padStart(2, '0');
+            const formattedMilsec = String(milsec).padStart(2, '0');
+            document.getElementById("display").innerHTML = `${formattedMin}:${formattedSec}:${formattedMilsec}`;
+        }
+    </script>
+</div>
+</body>
+</html>

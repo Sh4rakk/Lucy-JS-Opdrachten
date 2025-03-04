@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/Stylesheet40.css">
+    <title>Simple Game</title>
+</head>
+<body>
+
+<div class="settings">
+    <div class="wrapper">
+        <h3>Settings:</h3>
+        <form id="settingsform">
+            <table>
+                <tr>
+                    <td>Aantal kleuren:</td>
+                    <td><input type="number" id="kleuren"></td>
+                    <td></td>
+                </tr>
+                <!-- The following settings are disabled for simplicity -->
+                <tr>
+                    <td>Aantal loops:</td>
+                    <td><input type="number" id="loops" disabled value="1"></td>
+                    <td>keer</td>
+                </tr>
+                <tr>
+                    <td>Aantal sec/loop:</td>
+                    <td><input type="number" id="tijdloops" disabled value="0"></td>
+                    <td>sec</td>
+                </tr>
+            </table>
+            <input type="checkbox" id="wijzigkleur"> wijzig basiskleur per beurt
+        </form>
+    </div>
+</div>
+
+<div class="game">
+    <div class="gamesquare">
+        <div id="div1" class="block"></div>
+        <div id="div2" class="block"></div>
+        <div id="div3" class="block"></div>
+        <div id="div4" class="block"></div>
+        <div id="div5" class="block"></div>
+        <div id="div6" class="block"></div>
+        <div id="div7" class="block"></div>
+        <div id="div8" class="block"></div>
+        <div id="div9" class="block"></div>
+        <div id="basiccolor">basiskleur</div>
+    </div>
+</div>
+
+<div class="score"></div>
+
+<script>
+// Script Title: SimpleGameScript.js (Client Sided)
+// Debugging enabled
+
+let score = 0;
+let currentBaseColor = null;
+
+// Utility function to generate a random hex color
+function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+// Function to update the score display
+function updateScoreDisplay() {
+    document.querySelector(".score").innerHTML = "<h3>Score: " + score + "</h3>";
+}
+
+// Function to start a new turn
+function newTurn() {
+    console.log("Starting new turn.");
+
+    // Get the number of colors from settings (default to 4 if invalid)
+    let numColors = parseInt(document.getElementById("kleuren").value);
+    if (isNaN(numColors) || numColors < 1) {
+        numColors = 4;
+    }
+    console.log("Aantal kleuren: " + numColors);
+
+    // Generate a palette with random colors
+    let palette = [];
+    for (let i = 0; i < numColors; i++) {
+        palette.push(getRandomColor());
+    }
+    console.log("Generated palette:", palette);
+
+    // Determine if base color should change this turn
+    let changeBase = document.getElementById("wijzigkleur").checked;
+    if (changeBase || !currentBaseColor) {
+        currentBaseColor = palette[Math.floor(Math.random() * palette.length)];
+        console.log("New base color: " + currentBaseColor);
+    } else {
+        console.log("Using fixed base color: " + currentBaseColor);
+    }
+
+    // Update the base color display
+    let baseDiv = document.getElementById("basiccolor");
+    baseDiv.style.backgroundColor = currentBaseColor;
+    baseDiv.textContent = currentBaseColor;
+
+    // Randomly select one of the 9 blocks to have the base color
+    let correctIndex = Math.floor(Math.random() * 9) + 1;
+    console.log("Correct block is: div" + correctIndex);
+
+    // Assign colors to each block
+    for (let i = 1; i <= 9; i++) {
+        let block = document.getElementById("div" + i);
+        let blockColor = "";
+        if (i === correctIndex) {
+            blockColor = currentBaseColor;
+        } else {
+            // Choose a different color from the palette if possible
+            let otherColors = palette.filter(c => c !== currentBaseColor);
+            blockColor = otherColors.length > 0 
+                ? otherColors[Math.floor(Math.random() * otherColors.length)]
+                : currentBaseColor;
+        }
+        block.style.backgroundColor = blockColor;
+        block.dataset.color = blockColor;
+    }
+}
+
+// Set up click event listeners for each game block
+for (let i = 1; i <= 9; i++) {
+    let block = document.getElementById("div" + i);
+    block.addEventListener("click", function () {
+        console.log("Clicked block div" + i + " with color: " + block.dataset.color);
+        if (block.dataset.color === currentBaseColor) {
+            console.log("Correct click!");
+            score += 10;
+        } else {
+            console.log("Wrong click!");
+            score -= 5;
+        }
+        updateScoreDisplay();
+        // Start a new turn after a short delay
+        setTimeout(newTurn, 500);
+    });
+}
+
+// Start the game when the window loads
+window.onload = function () {
+    console.log("Game loaded.");
+    updateScoreDisplay();
+    newTurn();
+};
+</script>
+
+</body>
+</html>

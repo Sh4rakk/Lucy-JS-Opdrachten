@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/Stylesheet22.css">
+    <title>Document</title>
+</head>
+<body>
+
+<h2>Tafels</h2>
+<form id="inputForm">
+Geef getal voor tafel : <input type="number" id="tafel" placeholder="Tafel"><br><br>
+<input type="submit" value="Geef de tafel"> <br><br>
+</form>
+
+<div id="output">
+    -
+</div>
+
+<script>
+    document.getElementById('inputForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const tafel = document.getElementById('tafel').value.trim();
+        let tafelnummer = 0;
+
+        const outputDiv = document.getElementById('output');
+        if (tafelnummer <= 10) {
+            outputDiv.textContent = ''
+            while (tafelnummer <= 10) {
+                const totaal = tafelnummer * tafel;
+                outputDiv.textContent += `${tafelnummer} X ${tafel} = ${totaal}\n`;
+                tafelnummer++;
+            }
+            outputDiv.innerHTML = outputDiv.textContent.replace(/\n/g, '<br>');
+        } else {    
+            outputDiv.textContent = '-';
+        }
+    });
+</script>
+
+</body>
+</html> 

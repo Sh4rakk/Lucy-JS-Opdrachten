@@ -1,0 +1,17 @@
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+#output {
+    width: 500px;
+    border: 1px solid black;
+    border-radius: 2.5px;
+}
+
+hr {
+    width: 300px;
+    text-align: left;
+    margin-left:0;
+}
